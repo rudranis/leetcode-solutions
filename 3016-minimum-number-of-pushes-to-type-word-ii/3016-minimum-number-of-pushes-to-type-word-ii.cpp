@@ -1,16 +1,26 @@
 class Solution {
 public:
     int minimumPushes(string word) {
-        vector<int>freq(26,0);
-        for(char c:word){
-            freq[c-'a']++;
+         vector<int> freq(26, 0);
+
+        for (char c : word)
+            freq[c - 'a']++;
+
+        priority_queue<int> pq;
+
+        for (int f : freq)
+            if (f > 0)
+                pq.push(f);
+
+        int ans = 0;
+        int cnt = 0;
+
+        while (!pq.empty()) {
+            ans += pq.top() * ((cnt / 8) + 1);
+            pq.pop();
+            cnt++;
         }
-        sort(freq.begin(),freq.end(),greater<int>());
-        int ans=0;
-        for(int i=0;i<26;i++){
-            if(freq[i]==0) break;
-            ans+=freq[i]*((i/8)+1);
-        }
+
         return ans;
     }
 };
